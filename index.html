@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no'>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+		<title>I&apos;m a Web App&excl;</title>
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+			}
+
+				#container {
+					width: 100vw;
+					height: 100vh;
+					background-image: url('./bkg.jpg');
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: cover;
+				}
+
+					#downloadSquirrel {
+						position: absolute;
+						top: 50vh;
+						left: 10vw;
+						-webkit-transform: translateY(-50%);
+						transform: translateY(-50%);
+						width: 80vw;
+						height: calc( (2 * 80vw) / 3 );
+						cursor: pointer;
+					}
+
+						#downloadSquirrel img {
+							width: 100%;
+							height: 100%;
+						}
+		</style>
+	</head>
+	<body>
+		<div id='container'>
+			<!--<a id='downloadSquirrel' href='./squirrel.jpg' download><img src='./doug.jpg'></a>-->
+			<a id='downloadSquirrel' onclick='xal.fns.download("./squirrel.jpg");'><img src='./doug.jpg'></a>
+		</div>
+
+		<script type='text/javascript'>
+			var xal = {};
+			xal.vars = {};
+			xal.els = {};
+			xal.fns = {};
+			
+			xal.vars.debugg = false;
+			xal.vars.version = '0.0.4';
+
+			xal.fns.log = function (msg) {
+				if (window.console.dir) {
+					console.dir(msg);
+				} else {
+					console.log(msg);
+				}
+			}
+
+			xal.fns.clickthrough = function (e) {
+				switch (e.target) {
+					case xal.els.downloadSquirrel:
+					case xal.els.downloadSquirrel.getElementsByTagName('img')[0]:
+					break;
+
+					default:
+						xal.vars.openClickthrough = window.open(xal.vars.clickthroughUrl, '_blank');
+						xal.vars.openClickthrough.opener = null;
+					break;
+				}
+			};
+			
+			xal.fns.download = function(asset) {
+				xal.vars.openAsset = window.open(asset, '_blank');
+				xal.vars.openAsset.opener = null;
+			};
+
+			xal.fns.eventListeners = function () {
+				xal.els.container.onclick = xal.fns.clickthrough;
+			};
+
+			xal.fns.initFns = function () {
+				if (document.readyState == 'complete') {
+					xal.vars.debugg == true ? alert(xal.vars.version) : null;
+					
+					xal.vars.clickthroughUrl = 'http://www.xaxisadlabs.com';
+
+					xal.els.container = document.querySelector('#container');
+
+					xal.fns.eventListeners();
+				}
+			};
+
+			if (document.addEventListener) {
+				document.onreadystatechange = xal.fns.initFns;
+			} else {
+				document.attachEvent('onreadystatechange', xal.fns.initFns)
+			}
+		</script>
+	</body>
+</html>
